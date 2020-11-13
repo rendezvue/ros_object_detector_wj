@@ -1,4 +1,4 @@
-project(rdv_orange_detection_with_realsense)
+project(rdv_object_detector)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -32,38 +32,19 @@ add_library(${DARKNET_LIB_NAME} SHARED IMPORTED)
 # Set a path to Darknet library' shared library
 set_property(TARGET ${DARKNET_LIB_NAME} PROPERTY IMPORTED_LOCATION "${DARKNET_PATH}/libdarknet.so")
 
-set(APPENDED_SOURCE)
+#src
+set(SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
+FILE(GLOB SRC_SRC "${SRC_PATH}/*.cpp" ) 
+include_directories(${SRC_PATH})
 
-# 하위 디렉토리 추가
-add_subdirectory(src)
-include_directories( ./src )
+#Example src
+set(EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/example)
+FILE(GLOB EXAMPLE_SRC "${EXAMPLE_PATH}/*.cpp" ) 
+include_directories(${EXAMPLE_PATH})
 
+add_executable( rdv_object_detector ${SRC_SRC} ${EXAMPLE_SRC} )
 
-# 추가 할 파일의 확장자
-file(GLOB SOURCES_IN_CURRENT_DIR   "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
-file(GLOB HEADER_IN_CURRENT_DIR   "${CMAKE_CURRENT_LIST_DIR}/*.h" 
-                                  "${CMAKE_CURRENT_LIST_DIR}/*.hpp")
-                                    
-set(APPENDED_SOURCE ${SOURCES_IN_CURRENT_DIR} ${APPENDED_SOURCE})
-set(APPENDED_HEADER ${HEADER_IN_CURRENT_DIR} ${APPENDED_HEADER})
-
-foreach(SOURCE ${APPENDED_SOURCE})
-    message("${SOURCE}")
-endforeach(SOURCE)
-
-foreach(SOURCE ${APPENDED_SOURCE})
-    file(RELATIVE_PATH RELATIVE ${PROJECT_SOURCE_DIR} ${SOURCE})
-    
-    get_filename_component(FILENAME ${RELATIVE} NAME)
-    get_filename_component(PARENT_DIRECTORY ${RELATIVE} DIRECTORY)
-
-    message(STATUS "${FILENAME} in ${PARENT_DIRECTORY}")    
-    source_group(${PARENT_DIRECTORY} FILES ${SOURCE})
-endforeach(SOURCE)
-
-add_executable( rdv_orange_detection_with_realsense ${APPENDED_SOURCE} )
-
-target_link_libraries(rdv_orange_detection_with_realsense ${OpenCV_LIBS})
-target_link_libraries(rdv_orange_detection_with_realsense ${Boost_LIBRARIES})
-target_link_libraries(rdv_orange_detection_with_realsense ${REALSENSE2_FOUND})
-target_link_libraries(rdv_orange_detection_with_realsense ${DARKNET_LIB_NAME})
+target_link_libraries(rdv_object_detector ${OpenCV_LIBS})
+target_link_libraries(rdv_object_detector ${Boost_LIBRARIES})
+target_link_libraries(rdv_object_detector ${REALSENSE2_FOUND})
+target_link_libraries(rdv_object_detector ${DARKNET_LIB_NAME})

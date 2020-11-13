@@ -47,7 +47,7 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-rdv_orange_detection_with_realsense
+rdv_object_detector
 
 ### CMake Patch ###
 # External projects
