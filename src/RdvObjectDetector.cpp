@@ -1,11 +1,12 @@
 #include "RdvObjectDetector.h"
 
-CRdvObjectDetector::CRdvObjectDetector(std::string str_config_path, std::string str_weight_path, std::string str_meta_path, const double threshold) :
+CRdvObjectDetector::CRdvObjectDetector(const bool b_use_gaussian_pdf, std::string str_config_path, std::string str_weight_path, std::string str_meta_path, const double threshold) :
 	m_pNetwork(NULL)
 	,m_f_threshold(threshold)
 	,m_str_ConfigPath(str_config_path)
     ,m_str_WeightsPath(str_weight_path)
     ,m_str_MetaDataPath(str_meta_path)
+    ,m_b_use_gaussian_pdf(b_use_gaussian_pdf)
 {
 	printf("Init CRdvObjectDetector -- \n") ;
 
@@ -199,7 +200,7 @@ std::vector<Object2D> CRdvObjectDetector::Run(cv::Mat input_image, const int sor
 
 				double score = pDetection[j].prob[i] ;
 				double mask_value = 1.0 ;
-				if( !m_gaussian_pdf.empty() )
+				if( !m_gaussian_pdf.empty() && m_b_use_gaussian_pdf )
 				{
 					int _x = pt_center.x ;
 					int _y = pt_center.y ;
@@ -315,3 +316,14 @@ void CRdvObjectDetector::MakeImage(cv::Mat mat)
     }
     //return im;
 }
+
+void CRdvObjectDetector::SetConfig_UseGaussianPdf(const bool value)
+{
+	m_b_use_gaussian_pdf = value ;
+}
+
+bool CRdvObjectDetector::GetConfig_UseGaussianPdf(void)
+{
+	return m_b_use_gaussian_pdf ;
+}
+

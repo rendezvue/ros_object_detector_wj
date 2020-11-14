@@ -39,11 +39,14 @@ typedef struct _SortDepthObject2D
 class CRdvObjectDetector
 {
 public:
-	CRdvObjectDetector(std::string str_config_path, std::string str_weight_path, std::string str_meta_path, const double threshold=0.5) ;
+	CRdvObjectDetector(const bool b_use_gaussian_pdf, std::string str_config_path, std::string str_weight_path, std::string str_meta_path, const double threshold=0.5) ;
 	~CRdvObjectDetector() ;
 
 	std::vector<Object2D> Run(cv::Mat input_image, const int sorting) ;
 
+	void SetConfig_UseGaussianPdf(const bool value) ;
+	bool GetConfig_UseGaussianPdf(void) ;
+	
 private :
 	network *m_pNetwork;
 	metadata m_Data;
@@ -53,6 +56,8 @@ private :
 	std::string m_str_ConfigPath ;
     std::string m_str_WeightsPath ;
     std::string m_str_MetaDataPath ;
+
+	bool m_b_use_gaussian_pdf ;
 	
 	//darknet
 	void MakeImage(cv::Mat m) ;
