@@ -10,6 +10,8 @@
 
 typedef struct _Object2D
 {
+	int class_num = -1 ;
+	
 	int x = 0 ;
 	int y = 0 ;
 	int w = 0 ;

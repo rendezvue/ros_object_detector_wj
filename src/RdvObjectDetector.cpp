@@ -214,6 +214,7 @@ std::vector<Object2D> CRdvObjectDetector::Run(cv::Mat input_image, const int sor
 				}
 				
 				Object2D object ;
+				object.class_num = i ;
 				object.x = left ;
 				object.y = top ;
 				object.w = right - left ;
