@@ -19,6 +19,8 @@ typedef struct _Object2D
 	double score = 0 ;
 
 	double min_depth = 0 ;
+	double camera_center_distance = 0 ;
+	
 	int min_depth_pos_x = 0 ;
 	int min_depth_pos_y = 0 ;
 
@@ -35,6 +37,15 @@ typedef struct _SortDepthObject2D
         return (struct1.min_depth > struct2.min_depth);
     }
 }SortDepthObject2D;
+
+typedef struct _SortCenterDistanceObject2D
+{
+    inline bool operator() (const Object2D& struct1, const Object2D& struct2)
+    {
+        return (struct1.camera_center_distance > struct2.camera_center_distance);
+    }
+}SortCenterDistanceObject2D;
+
 
 
 

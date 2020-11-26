@@ -220,6 +220,9 @@ std::vector<Object2D> CRdvObjectDetector::Run(cv::Mat input_image, const int sor
 				object.w = right - left ;
 				object.h = bot - top ;
 				object.score = score * mask_value ;
+				float dx = (float)pt_center.x - (float)input_image.cols/2.0 ;
+				float dy = (float)pt_center.y - (float)input_image.rows/2.0 ;
+				object.camera_center_distance = sqrt(dx*dx + dy*dy) ; 
 
 #if 1
 				if( resize_scale != 1.0 )
@@ -231,6 +234,15 @@ std::vector<Object2D> CRdvObjectDetector::Run(cv::Mat input_image, const int sor
 					object.y = (float)object.y / resize_scale;
 					object.w = (float)object.w / resize_scale;
 					object.h = (float)object.h / resize_scale;
+
+					pt_center.x -= rect_copy_to.x ;
+					pt_center.y -= rect_copy_to.y ;
+					pt_center.x = (float)pt_center.x / resize_scale ;
+					pt_center.y = (float)pt_center.y / resize_scale ;
+					
+					float dx = (float)pt_center.x - (float)input_image.cols/2.0 ;
+					float dy = (float)pt_center.y - (float)input_image.rows/2.0 ;
+					object.camera_center_distance = sqrt(dx*dx + dy*dy) ; 
 				}
 #endif
 				vec_ret_objects.push_back(object) ;
