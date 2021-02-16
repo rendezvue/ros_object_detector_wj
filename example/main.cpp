@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
 
 	cv::Mat input_image = cv::imread(str_image_path) ;
 	
-	CRdvObjectDetector cls_rdv_object_detector(str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ;
+	CRdvObjectDetector cls_rdv_object_detector(0, str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ;
 
 	std::vector<Object2D> find_objects = cls_rdv_object_detector.Run(input_image, 1) ;
 
