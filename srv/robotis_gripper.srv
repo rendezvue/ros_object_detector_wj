@@ -1,0 +1,6 @@
+#request constants
+int8 type
+---
+#response constants
+int32 current
+int32 position

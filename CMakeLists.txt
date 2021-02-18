@@ -48,6 +48,18 @@ include_directories(${SRC_PATH})
 
 include_directories(${catkin_INCLUDE_DIRS})
 
+## Generate services in the 'srv' folder
+add_service_files(
+   FILES
+   SrvEnsemble.srv
+#   Service2.srv
+)
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+   DEPENDENCIES
+   std_msgs
+)
+
 catkin_package(
 #  INCLUDE_DIRS include
  LIBRARIES ros_ensemble_service

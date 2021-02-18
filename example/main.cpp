@@ -2,30 +2,15 @@
 #include <opencv2/opencv.hpp>   
 #include "RdvObjectDetector.h"
 #include "ros/ros.h"
-int main(int argc, char * argv[])
-{
-	ros::init(argc, argv, "rdv_object_detector") ;
-	ros::NodeHandle nh("~");
-	printf("Rendezvue Object Detector \n") ;
+#include "rdv_object_detector/SrvEnsemble.h"
 
-	std::string str_test_image_path_object;
-	nh.getParam("test_image_path_for_object", str_test_image_path_object);	
+CRdvObjectDetector *g_cls_rdv_object_detector;
 
-	std::string str_dnn_config_path_for_object, str_dnn_weight_path_for_object, str_dnn_meta_path_for_object;
-	
-	nh.getParam("dnn_config_path_for_object", str_dnn_config_path_for_object);
-	nh.getParam("dnn_weight_path_for_object", str_dnn_weight_path_for_object);
-	nh.getParam("dnn_meta_path_for_object", str_dnn_meta_path_for_object);
-	
-	std::string str_image_path = 			str_test_image_path_object;
-	std::string str_yolo_cfg_path = 		str_dnn_config_path_for_object;
-	std::string str_yolo_weight_path =		str_dnn_weight_path_for_object;
-	std::string str_yolo_data_path = 		str_dnn_meta_path_for_object;
+bool run_service(rdv_object_detector::SrvEnsemble::Request &req, rdv_object_detector::SrvEnsemble::Response &res) 
+{	
+	cv::Mat input_image; // made by req;
 
-	cv::Mat input_image = cv::imread(str_image_path) ;
-	CRdvObjectDetector cls_rdv_object_detector(0, str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ;
-	std::vector<Object2D> find_objects = cls_rdv_object_detector.Run(input_image, 1) ;
-
+	std::vector<Object2D> find_objects = g_cls_rdv_object_detector->Run(input_image, 1) ; // run detection
 
 	//result
 	cv::Mat cmat ;
@@ -40,7 +25,39 @@ int main(int argc, char * argv[])
 	}
 
 	cv::imwrite("result.png", cmat) ;
-//	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
+}
+
+int main(int argc, char * argv[])
+{
+	ros::init(argc, argv, "rdv_object_detector") ;
+	ros::NodeHandle nh("~");
+	printf("Rendezvue Object Detector \n") ;
+
+	/*********** read yolov4 parameters begin*************/
+	std::string str_test_image_path_object;
+	nh.getParam("test_image_path_for_object", str_test_image_path_object);	
+
+	std::string str_dnn_config_path_for_object, str_dnn_weight_path_for_object, str_dnn_meta_path_for_object;
+	
+	nh.getParam("dnn_config_path_for_object", str_dnn_config_path_for_object);
+	nh.getParam("dnn_weight_path_for_object", str_dnn_weight_path_for_object);
+	nh.getParam("dnn_meta_path_for_object", str_dnn_meta_path_for_object);	
+	
+	std::string str_image_path = 			str_test_image_path_object;
+	std::string str_yolo_cfg_path = 		str_dnn_config_path_for_object;
+	std::string str_yolo_weight_path =		str_dnn_weight_path_for_object;
+	std::string str_yolo_data_path = 		str_dnn_meta_path_for_object;
+	/***********read yolov4 parameters end ***************/
+
+	cv::Mat input_image = cv::imread(str_image_path) ; // load captured image
+	CRdvObjectDetector cls_rdv_object_detector(0, str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ; // Init yolo(darknet) + load yolov4 params
+
+	g_cls_rdv_object_detector = &cls_rdv_object_detector;
+	//do_service();
+
+	ros::ServiceServer service_server = nh.advertiseService("ros_object_detector_service", run_service) ;
+	ros::spin() ;
 
     return EXIT_SUCCESS;
 }
