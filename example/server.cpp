@@ -3,6 +3,7 @@
 #include "RdvObjectDetector.h"
 #include "ros/ros.h"
 #include "ros_object_detector/SrvEnsemble.h"
+#include "ros_object_detector/yolo.h"
 
 CRdvObjectDetector *g_cls_ros_object_detector;
 
@@ -50,6 +51,17 @@ bool run_service(ros_object_detector::SrvEnsemble::Request &req, ros_object_dete
 		cv::Rect rect = cv::Rect(find_objects[i].x, find_objects[i].y, find_objects[i].w, find_objects[i].h) ;
 
 		cv::rectangle(cmat, rect, cv::Scalar(0,0,255));
+
+		ros_object_detector::yolo ret_data;
+		ret_data.x = find_objects[i].x;
+		ret_data.y = find_objects[i].y;
+		ret_data.width = find_objects[i].w;
+		ret_data.height = find_objects[i].h;
+		ret_data.score = find_objects[i].score;
+
+		res.result.push_back(ret_data);
+			//find_objects[i].x, find_objects[i].y, find_objects[i].w, find_objects[i].h, find_objects[i].score
+		//};
 	}
 
 	cv::imwrite("result.png", cmat) ;

@@ -48,22 +48,28 @@ include_directories(${SRC_PATH})
 
 include_directories(${catkin_INCLUDE_DIRS})
 
+
 ## Generate services in the 'srv' folder
 add_service_files(
    FILES
    SrvEnsemble.srv
 #   Service2.srv
 )
+
+add_message_files(
+   FILES
+   yolo.msg
+)
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   std_msgs
+   std_msgs   
 )
 
 catkin_package(
 #  INCLUDE_DIRS include
  LIBRARIES ros_ensemble_service
- CATKIN_DEPENDS roscpp std_msgs 
+ CATKIN_DEPENDS roscpp std_msgs message_runtime
 # CATKIN_DEPENDS message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
