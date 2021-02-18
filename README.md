@@ -16,7 +16,7 @@ $ cd ros_object_detector</code></pre>
 * 컴파일 완료 후 libdarknet.so 파일이 생성 되었는지 확인
 
 4. catkin_make
-<pre><code>catkin_ws $ catkin_make<br>
+<pre><code>catkin_ws $ catkin_make</code></pre>
 
 5. yolo v4 파일 설정 
 * /home/fileshare/yolov4_drink_can/can_third 폴더를 src/ros_object_detector 로 복사
