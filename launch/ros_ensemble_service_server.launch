@@ -1,0 +1,27 @@
+<launch>
+	<arg name="name" default="ensemble" />
+	<arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/rdv_object_detector" />
+
+	<arg name="test_image_path_for_object" default="can_third/can_data3/test_images/1.jpg" />	
+	<arg name="dnn_config_path_for_object" default="can_third/yolov4-custom.cfg" />
+	<arg name="dnn_weight_path_for_object" default="can_third/can_data3/backup/yolov4-custom_best.weights" />
+	<arg name="dnn_meta_path_for_object" default="can_third/can_data3/train_images" />
+	
+	<node pkg="rdv_object_detector" type="rdv_object_detector" respawn="true" name="$(arg name)" >
+
+		<!-- ORANGE -->
+		
+		<param name="test_image_path_for_object" type="string" value="$(arg tran_path)/$(arg test_image_path_for_object)" />
+		<!-- DNN Config File Path -->
+
+		<param name="dnn_config_path_for_object" type="string" value="$(arg tran_path)/$(arg dnn_config_path_for_object)" />
+		<!-- DNN Weight File Path -->
+		<param name="dnn_weight_path_for_object" type="string" value="$(arg tran_path)/$(arg dnn_weight_path_for_object)" />
+		<!-- DNN meta File Path -->
+		<param name="dnn_meta_path_for_object" type="string" value="$(arg tran_path)/$(arg dnn_meta_path_for_object)" />
+		<!-- DNN meta File Path -->
+
+		<!-- internal name -->
+		<param name="name" value="$(arg name)" />
+	</node>
+</launch>

@@ -1,22 +1,26 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>   
 #include "RdvObjectDetector.h"
-
+#include "ros/ros.h"
 int main(int argc, char * argv[])
 {
+	ros::init(argc, argv, "rdv_object_detector") ;
+	ros::NodeHandle nh("~");
 	printf("Rendezvue Object Detector \n") ;
 
-	if( argc != 5 )
-	{
-		printf("input argument error : <cmd> image_path yolo_cfg_path yolo_weights_path yolo_data_path\n") ;
+	std::string str_test_image_path_object;
+	nh.getParam("test_image_path_for_object", str_test_image_path_object);	
 
-		return 1 ;
-	}
-
-	std::string str_image_path = argv[1];
-	std::string str_yolo_cfg_path = argv[2];
-	std::string str_yolo_weight_path = argv[3];
-	std::string str_yolo_data_path = argv[4];
+	std::string str_dnn_config_path_for_object, str_dnn_weight_path_for_object, str_dnn_meta_path_for_object;
+	
+	nh.getParam("dnn_config_path_for_object", str_dnn_config_path_for_object);
+	nh.getParam("dnn_weight_path_for_object", str_dnn_weight_path_for_object);
+	nh.getParam("dnn_meta_path_for_object", str_dnn_meta_path_for_object);
+	
+	std::string str_image_path = 			str_test_image_path_object;
+	std::string str_yolo_cfg_path = 		str_dnn_config_path_for_object;
+	std::string str_yolo_weight_path =		str_dnn_weight_path_for_object;
+	std::string str_yolo_data_path = 		str_dnn_meta_path_for_object;
 
 	cv::Mat input_image = cv::imread(str_image_path) ;
 	
