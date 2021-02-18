@@ -20,23 +20,23 @@ $ cd ros_object_detector</code></pre>
 
 5. yolo v4 파일 설정 
 * /home/fileshare/yolov4_drink_can/can_third 폴더를 src/ros_object_detector 로 복사
-* can_third/can_data3/can.data 의 path를 user의 환경에 맞게 수정
-* train = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can_train.txt
-* valid = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can_valid.txt
-* names = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can.names
+* can_third/can_data3/can.data 의 내용중 아래의 path를 user의 환경에 맞게 수정
+train = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can_train.txt
+valid = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can_valid.txt
+names = /home/hjpark/catkin_ws_yolo/src/ros_object_detector/can_third/can_data3/can.names
 
 6. launch 파일 param user 환경에 맞게 수정.
 <pre><code>$ catkin_ws/src/ros_object_detector/launch/ros_ensemble_service_server.launch</code></pre> 
 * ros_object_detector 폴더 경로
-* <arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/ros_object_detector" />
+arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/ros_object_detector" 
 
 
 <pre><code>$ catkin_ws/src/ros_object_detector/launch/ros_ensemble_service_client.launch</code></pre> 
 * ros_object_detector 폴더 경로
-* <arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/rdv_object_detector" /> 
+arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/rdv_object_detector" 
 
 * 디텍션할 테스트용 이미지 파일
-* <arg name="test_image_path_for_object" default="can_third/can_data3/test_images/1.jpg" />
+arg name="test_image_path_for_object" default="can_third/can_data3/test_images/1.jpg" 
 
 6. run ( 멀티 세션으로 server 와 client 각각 실행 )
 <pre><code>$ roslaunch ros_object_detector ros_ensemble_service_server.launch</code></pre>
@@ -46,7 +46,7 @@ $ cd ros_object_detector</code></pre>
 7. 결과
 ~/.ros/result.png 파일로 이미지 저장 됨.
 client 에서는 아래와 같은 결과 메시지 확인 가능.
-ros Object Detector client
+<pre><code>ros Object Detector client
 Service call success
 x:2171, y:1812, w:513, h:184, score:0.581027
 x:1812, y:1289, w:271, h:232, score:0.780899
@@ -69,5 +69,5 @@ x:1269, y:1269, w:348, h:445, score:0.997481
 x:1037, y:1870, w:678, h:600, score:0.997741
 x:2520, y:1318, w:484, h:940, score:0.998046
 x:2287, y:1221, w:339, h:630, score:0.999150
-x:2074, y:949, w:746, h:445, score:0.999784
+x:2074, y:949, w:746, h:445, score:0.999784</code></pre>
 
