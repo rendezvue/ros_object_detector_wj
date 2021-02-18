@@ -2,15 +2,16 @@
 #include <opencv2/opencv.hpp>   
 #include "RdvObjectDetector.h"
 #include "ros/ros.h"
-#include "rdv_object_detector/SrvEnsemble.h"
+#include "ros_object_detector/SrvEnsemble.h"
 
-CRdvObjectDetector *g_cls_rdv_object_detector;
+CRdvObjectDetector *g_cls_ros_object_detector;
 
-bool run_service(rdv_object_detector::SrvEnsemble::Request &req, rdv_object_detector::SrvEnsemble::Response &res) 
+bool run_service(ros_object_detector::SrvEnsemble::Request &req, ros_object_detector::SrvEnsemble::Response &res) 
 {	
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
 	cv::Mat input_image; // made by req;
 
-	std::vector<Object2D> find_objects = g_cls_rdv_object_detector->Run(input_image, 1) ; // run detection
+	std::vector<Object2D> find_objects = g_cls_ros_object_detector->Run(input_image, 1) ; // run detection
 
 	//result
 	cv::Mat cmat ;
@@ -30,8 +31,9 @@ bool run_service(rdv_object_detector::SrvEnsemble::Request &req, rdv_object_dete
 
 int main(int argc, char * argv[])
 {
-	ros::init(argc, argv, "rdv_object_detector") ;
+	ros::init(argc, argv, "ros_object_detector") ;
 	ros::NodeHandle nh("~");
+	ros::NodeHandle n;
 	printf("Rendezvue Object Detector \n") ;
 
 	/*********** read yolov4 parameters begin*************/
@@ -51,13 +53,15 @@ int main(int argc, char * argv[])
 	/***********read yolov4 parameters end ***************/
 
 	cv::Mat input_image = cv::imread(str_image_path) ; // load captured image
-	CRdvObjectDetector cls_rdv_object_detector(0, str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ; // Init yolo(darknet) + load yolov4 params
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
+	CRdvObjectDetector cls_ros_object_detector(0, str_yolo_cfg_path, str_yolo_weight_path, str_yolo_data_path ,0.5) ; // Init yolo(darknet) + load yolov4 params
 
-	g_cls_rdv_object_detector = &cls_rdv_object_detector;
+	g_cls_ros_object_detector = &cls_ros_object_detector;
 	//do_service();
-
-	ros::ServiceServer service_server = nh.advertiseService("ros_object_detector_service", run_service) ;
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
+	ros::ServiceServer service_server = n.advertiseService("ros_object_detector_service", run_service) ;
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;	
 	ros::spin() ;
-
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
     return EXIT_SUCCESS;
 }

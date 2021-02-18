@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>rdv_object_detector</name>
+  <name>ros_object_detector</name>
   <version>0.9.3</version>
   <description>
     This package attempts to show the features of ROS step-by-step,
@@ -10,7 +10,7 @@
   <maintainer email="sloretz@openrobotics.org">Shane Loretz</maintainer>
   <license>BSD</license>
 
-  <url type="website">http://www.ros.org/wiki/rdv_object_detector</url>
+  <url type="website">http://www.ros.org/wiki/ros_object_detector</url>
   <url type="bugtracker">https://github.com/ros/ros_tutorials/issues</url>
   <url type="repository">https://github.com/ros/ros_tutorials</url>
   <author>Morgan Quigley</author>

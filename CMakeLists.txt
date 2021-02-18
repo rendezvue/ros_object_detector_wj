@@ -1,4 +1,4 @@
-project(rdv_object_detector)
+project(ros_object_detector)
 
 cmake_minimum_required(VERSION 3.0.2)
 
@@ -71,16 +71,33 @@ catkin_package(
 
 #Example src
 set(EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/example)
-FILE(GLOB EXAMPLE_SRC "${EXAMPLE_PATH}/*.cpp" ) 
+FILE(GLOB SERVER_SRC "${EXAMPLE_PATH}/server.cpp" ) 
+FILE(GLOB CLIENT_SRC "${EXAMPLE_PATH}/client.cpp" ) 
 include_directories(${EXAMPLE_PATH})
 
-add_executable( rdv_object_detector ${SRC_SRC} ${EXAMPLE_SRC} )
+add_executable( ros_object_detector_server ${SRC_SRC} ${SERVER_SRC} )
+add_executable( ros_object_detector_client ${SRC_SRC} ${CLIENT_SRC} )
 
-target_link_libraries(rdv_object_detector ${catkin_LIBRARIES})
-target_link_libraries(rdv_object_detector ${OpenCV_LIBS})
-target_link_libraries(rdv_object_detector ${Boost_LIBRARIES})
-target_link_libraries(rdv_object_detector ${REALSENSE2_FOUND})
-target_link_libraries(rdv_object_detector ${DARKNET_LIB_NAME})
+target_link_libraries(ros_object_detector_server 
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    ${REALSENSE2_FOUND}
+    ${DARKNET_LIB_NAME}
+)
 
-install(TARGETS rdv_object_detector
+target_link_libraries(ros_object_detector_client     
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    ${REALSENSE2_FOUND}
+    ${DARKNET_LIB_NAME}
+)
+
+
+
+install(TARGETS ros_object_detector_server
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  
+install(TARGETS ros_object_detector_client
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
