@@ -1,5 +1,5 @@
 <launch>
-	<arg name="name" default="ensemble" />
+	<arg name="name" default="ros_object_detector_server" />
 	<arg name="tran_path" default="/home/hjpark/catkin_ws_yolo/src/rdv_object_detector" />
 
 	<arg name="test_image_path_for_object" default="can_third/can_data3/test_images/1.jpg" />	

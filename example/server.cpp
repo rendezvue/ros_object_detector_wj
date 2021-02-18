@@ -9,13 +9,40 @@ CRdvObjectDetector *g_cls_ros_object_detector;
 bool run_service(ros_object_detector::SrvEnsemble::Request &req, ros_object_detector::SrvEnsemble::Response &res) 
 {	
 	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
-	cv::Mat input_image; // made by req;
+	
 
-	std::vector<Object2D> find_objects = g_cls_ros_object_detector->Run(input_image, 1) ; // run detection
+	int width = req.width;
+	int height = req.height;
+	int bpp = req.bpp;
 
+	char *buffer = (char*)malloc(width*height*bpp);
+	
+	for( int i = 0 ; i < width*height*bpp; i++ )
+	{
+		buffer[i] = req.data[i];
+	}
+	
+	cv::Mat req_image;
+
+	if( bpp == 3 )
+	{
+		req_image = cv::Mat(height, width, CV_8UC3, buffer );
+	}
+	else if( bpp == 1 )
+	{
+		req_image = cv::Mat(height, width, CV_8UC1, buffer );
+	}
+	else
+	{
+		fprintf(stderr,"image bpp must be 1 or 3, error!!");
+		exit(1);
+	}
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
+	std::vector<Object2D> find_objects = g_cls_ros_object_detector->Run(req_image, 1) ; // run detection
+	fprintf(stderr,"[%d]=================== \n",__LINE__) ;
 	//result
 	cv::Mat cmat ;
-	input_image.copyTo(cmat) ;
+	req_image.copyTo(cmat) ;
 	const int size_find_objects = find_objects.size() ;
 
 	for( int i=0 ; i<size_find_objects ; i++ )
@@ -31,7 +58,7 @@ bool run_service(ros_object_detector::SrvEnsemble::Request &req, ros_object_dete
 
 int main(int argc, char * argv[])
 {
-	ros::init(argc, argv, "ros_object_detector") ;
+	ros::init(argc, argv, "ros_object_detector_server") ;
 	ros::NodeHandle nh("~");
 	ros::NodeHandle n;
 	printf("Rendezvue Object Detector \n") ;

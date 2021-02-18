@@ -1,8 +1,14 @@
 string str_cmd
-int8 mid
-float64[] data
-float64 object_size
-int8 debug
-string str_data_path
+int32 width
+int32 height
+int32 bpp
+int8[] data
+
+#string str_cmd
+#int8 mid
+#float64[] data
+#float64 object_size
+#int8 debug
+#string str_data_path
 ---
 string str_result		# example : [3|0,tx,ty,tz,mm,rx,ry,rz,radian/1,tx,ty,tz,mm,rx,ry,rz,radian/2,tx,ty,tz,mm,rx,ry,rz,radian]
