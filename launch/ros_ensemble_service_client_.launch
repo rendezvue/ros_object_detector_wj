@@ -1,7 +1,7 @@
 <launch>
 	<arg name="name" default="ros_object_detector_client" />
 	<arg name="tran_path" default="/home/wjlee/catkin_ws/src/ros_object_detector" />
-	<arg name="test_image_path_for_object" default="can_third/can_data3/test_images/8.jpg" />
+	<arg name="test_image_path_for_object" default="cutter_detection/images/test_images/m_6.jpg" />
 	
 	<node pkg="ros_object_detector" type="ros_object_detector_client" respawn="false" output="screen" name="$(arg name)" >
 		<!-- ORANGE -->		

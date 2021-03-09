@@ -58,7 +58,7 @@ bool run_service(ros_object_detector::SrvEnsemble::Request &req, ros_object_dete
 		ret_data.width = find_objects[i].w;
 		ret_data.height = find_objects[i].h;
 		ret_data.score = find_objects[i].score;
-
+		
 		res.result.push_back(ret_data);
 			//find_objects[i].x, find_objects[i].y, find_objects[i].w, find_objects[i].h, find_objects[i].score
 		//};

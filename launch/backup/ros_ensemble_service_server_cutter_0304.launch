@@ -2,10 +2,10 @@
 	<arg name="name" default="ros_object_detector_server" />
 	<arg name="tran_path" default="/home/wjlee/catkin_ws/src/ros_object_detector" />
 
-	<arg name="test_image_path_for_object" default="can_third/can_data3/test_images/2.jpg" />	
-	<arg name="dnn_config_path_for_object" default="can_third/yolov4-custom.cfg" />
-	<arg name="dnn_weight_path_for_object" default="can_third/can_data3/backup/yolov4-custom_best.weights" />
-	<arg name="dnn_meta_path_for_object" default="can_third/can_data3/can.data" />
+	<arg name="test_image_path_for_object" default="cutter_detection/images/m_1.jpg" />	
+	<arg name="dnn_config_path_for_object" default="cutter_detection/yolov4-custom.cfg" />
+	<arg name="dnn_weight_path_for_object" default="cutter_detection/backup/yolov4-custom_best.weights" />
+	<arg name="dnn_meta_path_for_object" default="cutter_detection/obj.data" />
 	
 	<node pkg="ros_object_detector" type="ros_object_detector_server" respawn="false" output="screen" name="$(arg name)" >
 

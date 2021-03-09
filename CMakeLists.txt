@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   image_transport 
+  cv_bridge
+  
 )
 #realsense
 find_library(REALSENSE2_FOUND realsense2 HINTS ${LIBRARY_DIR} REQUIRED)
@@ -79,10 +81,16 @@ catkin_package(
 set(EXAMPLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/example)
 FILE(GLOB SERVER_SRC "${EXAMPLE_PATH}/server.cpp" ) 
 FILE(GLOB CLIENT_SRC "${EXAMPLE_PATH}/client.cpp" ) 
+FILE(GLOB SERVER_SRC_CUTTER "${EXAMPLE_PATH}/cutter_server.cpp" ) 
+FILE(GLOB CLIENT_SRC_CUTTER "${EXAMPLE_PATH}/cutter_client.cpp" ) 
+
 include_directories(${EXAMPLE_PATH})
 
+add_executable( ros_cutter_detector_server ${SRC_SRC} ${SERVER_SRC_CUTTER} )
+add_executable( ros_cutter_detector_client ${SRC_SRC} ${CLIENT_SRC_CUTTER} )
 add_executable( ros_object_detector_server ${SRC_SRC} ${SERVER_SRC} )
 add_executable( ros_object_detector_client ${SRC_SRC} ${CLIENT_SRC} )
+
 
 target_link_libraries(ros_object_detector_server 
     ${catkin_LIBRARIES} 
@@ -100,7 +108,28 @@ target_link_libraries(ros_object_detector_client
     ${DARKNET_LIB_NAME}
 )
 
+target_link_libraries(ros_cutter_detector_server 
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    ${REALSENSE2_FOUND}
+    ${DARKNET_LIB_NAME}
+)
+target_link_libraries(ros_cutter_detector_client
+    ${catkin_LIBRARIES} 
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    ${REALSENSE2_FOUND}
+    ${DARKNET_LIB_NAME}
+)
 
+
+install(TARGETS ros_cutter_detector_server
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  
+install(TARGETS ros_cutter_detector_client
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  
 
 install(TARGETS ros_object_detector_server
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
