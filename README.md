@@ -71,3 +71,4 @@ x:2520, y:1318, w:484, h:940, score:0.998046
 x:2287, y:1221, w:339, h:630, score:0.999150
 x:2074, y:949, w:746, h:445, score:0.999784</code></pre>
 
+# ros_object_detector_wj
